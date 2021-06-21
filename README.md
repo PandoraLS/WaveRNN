@@ -68,8 +68,10 @@ You can skip this section if you don't need a single-speaker dataset.
 `wavernn.py` is the entry point:
 
 ```
-$ python wavernn.py
-```
+python wavernn.py
+python wavernn.py -m wavernn # 选择wavernn模型进行训练, 
+python wavernn.py -m wavernn - model_checkpoints/wavernn.43.upconv.pyt -g # 载入模型, 生成语音
+``
 
 By default, it trains a VQ-VAE model. The `-m` option can be used to tell the
 the script to train a different model.

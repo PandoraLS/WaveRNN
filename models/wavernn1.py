@@ -13,6 +13,7 @@ from layers.wavernn import WaveRNN
 from layers.upsample import UpsampleNetwork
 import utils.env as env
 import utils.logger as logger
+import soundfile as sf
 
 class Model(nn.Module) :
     def __init__(self, rnn_dims, fc_dims, pad, upsample_factors, feat_dims):
@@ -129,9 +130,11 @@ class Model(nn.Module) :
         for i, id in enumerate(test_index):
             gt = np.load(f'{data_path}/quant/{id}.npy')
             gt = (gt.astype(np.float32) + 0.5) / (2**15 - 0.5)
-            librosa.output.write_wav(f'{paths.gen_path()}/{k}k_steps_{i}_target.wav', gt, sr=sample_rate)
+            # librosa.output.write_wav(f'{paths.gen_path()}/{k}k_steps_{i}_target.wav', gt, sr=sample_rate)
+            sf.write(f'{paths.gen_path()}/{k}k_steps_{i}_target.wav', gt, samplerate=sample_rate)
             audio = out[i][:len(gt)].cpu().numpy()
-            librosa.output.write_wav(f'{paths.gen_path()}/{k}k_steps_{i}_generated.wav', audio, sr=sample_rate)
+            # librosa.output.write_wav(f'{paths.gen_path()}/{k}k_steps_{i}_generated.wav', audio, sr=sample_rate)
+            sf.write(f'{paths.gen_path()}/{k}k_steps_{i}_generated.wav', audio, samplerate=sample_rate)
 
 def upgrade_state_dict(state_dict):
     out_dict = {}
